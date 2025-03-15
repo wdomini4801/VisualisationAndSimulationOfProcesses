@@ -22,7 +22,7 @@ G.add_edge('C', 'D')
 
 # wybierz typ układu wierzchołków ’spring_layout’
 # przypisz go do zmiennej ’pos’
-pos = nx.spring_layout(G)
+pos = nx.spring_layout(G)  # dlaczego przy każdym uruchomieniu otrzymujemy inne rozmieszczenie?
 
 # wyświetl wierzchołki
 # wierzchołki są w pozycjach zadanych przez ’pos’

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 # do operacji pierwiastkowania
 import numpy as np
 
-G = nx.Graph()
+G = nx.Graph()  # czy potrzebne? NIE, bo nie korzystamy w ogóle z tego grafu, tylko z małego g (niżej)
 
 # nazwy wierzchołków
 VV = [1, 2, 3, 4, 5]
@@ -16,7 +16,7 @@ WW = [(1, 2), (2, 3), (3, 4), (4, 5), (1, 3), (3, 5)]
 Vx = {1: -5, 2: 1, 3: 2, 4: 3, 5: 4}
 Vy = {1: 0, 2: 1, 3: 0, 4: -1, 5: 0}
 
-g = nx.Graph()
+g = nx.Graph()  # o z tego
 
 # pusty słownik
 gpos = {}
@@ -36,13 +36,16 @@ for v1 in VV:
             # funkcja ’str’ zwraca ciąg znaków
             # funkcja ’np.sqrt’ zwraca pierwiastek
             # symbol ’**’ oznacza potęgowanie
+
             label = str(np.sqrt((Vx[v1] - Vx[v2]) ** 2 + (Vy[v1] - Vy[v2]) ** 2))
+            # label = str(round(np.sqrt((Vx[v1] - Vx[v2]) ** 2 + (Vy[v1] - Vy[v2]) ** 2), ndigits=2)) <- zaokr
 
             # dodaj wagi do krawędzi
             g.add_weighted_edges_from([(v1, v2, label)])
 
 # wyświetl żółte wierzchołki z etykietami w ustalonych wcześniej pozycjach
 nx.draw(g, gpos, with_labels=True, node_color='yellow')
+# nx.draw(g, gpos, with_labels=True, node_color='yellow', node_size=2000) <- większy rozmiar wierzchołków
 
 # pobierz i wyświetl etykiety
 labels = nx.get_edge_attributes(g, 'weight')

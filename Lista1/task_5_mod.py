@@ -4,7 +4,7 @@ import numpy as np
 # pytanie o przedział x
 while True:
     try:
-        x_start = float(input("Podaj początek przedziału x: "))
+        x_start = float(input("Podaj początek przedziału x: "))  # to mogą być też inty w teorii, ale bezpieczniej tak
         x_end = float(input("Podaj koniec przedziału x: "))
         if x_start >= x_end:
             print("Początek musi być mniejszy niż koniec przedziału. Spróbuj ponownie.")
@@ -16,7 +16,7 @@ while True:
 x = np.linspace(x_start, x_end, 100)  # wygładzenie: 10 -> 100 punktów
 
 # pytanie o kolor wykresu
-plot_color = input("Podaj kolor wykresu (np. red, blue, green): ")
+plot_color = input("Podaj kolor 1 wykresu (np. red, blue, green): ")
 
 # pytanie, które funkcje chce wyświetlić
 print("\nWybierz funkcje do wyświetlenia:")
