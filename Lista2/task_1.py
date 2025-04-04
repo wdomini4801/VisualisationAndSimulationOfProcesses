@@ -13,7 +13,8 @@ omega = (1/r) * (up - ul)
 time = np.linspace(0, 10, 100)
 
 # kąt obrotu w czasie (zakładając kąt początkowy 0) w radianach
-x3 = omega * time
+x0 = np.deg2rad(45)
+x3 = x0 + omega * time
 
 # wyświetl wykres
 plt.figure(figsize=(8, 6))
