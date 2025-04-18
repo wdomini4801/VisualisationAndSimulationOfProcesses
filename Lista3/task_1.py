@@ -9,8 +9,7 @@ t_start = 0.0  # czas początkowy symulacji
 t_end = 5 * T  # czas końcowy symulacji
 
 # kroki czasowe do przetestowania
-# h_values = [0.8 * T, 0.5 * T, 0.2 * T, 0.05 * T]
-h_values = [2.5, 1.5, 0.5, 0.1]
+h_values = [2.8 * T, 1.5 * T, 0.5 * T, 0.1 * T]
 
 
 # funkcje pobudzeń
@@ -32,9 +31,9 @@ def euler_simulation(h, input_type):
     y = np.zeros(n_steps + 1)
     u = np.zeros(n_steps + 1)
 
-    y[0] = y0  # wstawienie warunku początkowego
+    y[0] = y0  # ustawienie warunku początkowego
 
-    # generowanie sygnału wejściowego
+    # generowanie sygnału wejściowego (w zależności od typu impulsu)
     if input_type == 'step':
         for i in range(n_steps + 1):
             u[i] = step_input(t[i])
@@ -42,13 +41,11 @@ def euler_simulation(h, input_type):
         # impuls niezerowy tylko na początku
         if n_steps > 0:
             u[0] = 1.0 / h  # impuls o całce 1
-    else:
-        raise ValueError("Nieznany typ pobudzenia")
 
     # pętla symulacji - jawna metoda Eulera
     for n in range(n_steps):
-        dy_dt = (k * u[n] - y[n]) / T
-        y[n+1] = y[n] + h * dy_dt
+        dy_dt = (k * u[n] - y[n]) / T  # przekształcenie wzoru: T * dy/dt + y = ku (człon inercyjny)
+        y[n+1] = y[n] + h * dy_dt  # przekształcenie wzoru: dy/dt ≈ (y_{n+1} - y_n) / h
 
     return t, y
 
@@ -59,7 +56,7 @@ plt.title(f'Odpowiedź skokowa członu inercyjnego (T={T}, k={k})\njawna metoda 
 
 # rozwiązanie analityczne dla skoku jednostkowego (dla porównania)
 t_analytical = np.linspace(t_start, t_end, 200)
-y_analytical_step = k * (1 - np.exp(-t_analytical / T))  # z poprzedniej listy
+y_analytical_step = k * (1 - np.exp(-t_analytical / T))  # wzór z poprzedniej listy (zadanie 2)
 plt.plot(t_analytical, y_analytical_step, 'k--', label='rozwiązanie analityczne', linewidth=2)
 
 # symulacje dla różnych h
@@ -79,7 +76,7 @@ plt.figure(figsize=(10, 6))
 plt.title(f'Odpowiedź impulsowa członu inercyjnego (T={T}, k={k})\njawna metoda Eulera (przybliżona delta Diraca)')
 
 # rozwiązanie analityczne dla impulsu jednostkowego (delta Diraca)
-y_analytical_impulse = (k / T) * np.exp(-t_analytical / T)  # z poprzedniej listy
+y_analytical_impulse = (k / T) * np.exp(-t_analytical / T)  # wzór z poprzedniej listy (zadanie 2)
 plt.plot(t_analytical, y_analytical_impulse, 'k--', label='rozwiązanie analityczne', linewidth=2)
 
 # symulacje dla różnych h
@@ -88,8 +85,7 @@ for h in h_values:
     if h >= 2*T:
         # jeśli wartości są bardzo duże, ograniczamy oś Y dla czytelności
         if np.any(np.abs(y_sim) > 10 * (k/T)):
-             plt.ylim(top=10*(k/T), bottom=min(0,-0.1*(k/T)))
-
+            plt.ylim(top=10*(k/T), bottom=min(0,-0.1*(k/T)))
     plt.plot(t_sim, y_sim, '-', label=f'jawny Euler, h={h:.2f} s', markersize=3, linewidth=1)
 
 plt.xlabel('Czas [s]')
